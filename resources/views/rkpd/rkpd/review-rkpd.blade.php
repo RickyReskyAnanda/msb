@@ -136,7 +136,7 @@
                             @foreach($prog->rkpd as $kegiatan)
                             <tr>
                                 <td>{{($nomor-1).'.'.$nomor2++}}</td>
-                                <td>{{ucwords($kegiatan->kegiatan->nm_kegiatan)}}</td>
+                                <td><?php if(isset($kegiatan->nm_kegiatan))echo ucwords($kegiatan->nm_kegiatan)?></td>
                                 <td><?php if(isset($kegiatan->lokasi))echo $kegiatan->lokasi;?></td>
                                 <td><?php if(isset($kegiatan->indikator_kinerja))echo $kegiatan->indikator_kinerja;?></td>
                                 <td>{{$kegiatan->target}}</td>
@@ -146,7 +146,7 @@
                                         $jumlah_pagu_awal +=$kegiatan->pagu_indikatif;
                                     ?>
                                 </td>
-                                <td>{{ucwords($kegiatan->kegiatan->nm_kegiatan)}}</td>
+                                <td>{{ucwords($kegiatan->nm_kegiatan)}}</td>
                                 <td>{{$kegiatan->hak_lokasi}}</td>
                                 <td><?php if(isset($kegiatan->indikator_kinerja))echo ucwords($kegiatan->indikator_kinerja);?></td>
                                 <td>{{$kegiatan->hak_target_capaian}}</td>
@@ -159,7 +159,11 @@
                                 <td>
                                     <button class="btn btn-warning pengesahan" data-id="{{$kegiatan->id_rkpd}}" <?php if($kegiatan->sah == 'YA')echo "disabled='disabled'";?>>SAH</button>
                                 </td>
-                                <td><a href="{{url('rkpd/administrator/anggaran-perubahan/input/'.$kegiatan->id_rkpd)}}" class="btn btn-primary">Anggran Perubahan</a></td>
+                                <td>
+                                    @if($kegiatan->sah =='YA')
+                                    <a href="{{url('rkpd/administrator/anggaran-perubahan/input/'.$kegiatan->id_rkpd)}}" class="btn btn-primary">Anggaran Perubahan</a>
+                                    @endif
+                                </td>
                             </tr>
                             @endforeach
                             @endforeach            
