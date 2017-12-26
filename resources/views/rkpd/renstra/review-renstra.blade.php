@@ -60,7 +60,7 @@
             </div>
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>Laporan RKPD</h5>
+                    <h5>Review Renstra</h5>
                 </div>
                 <div class="ibox-content">
                     <div class="table-responsive">

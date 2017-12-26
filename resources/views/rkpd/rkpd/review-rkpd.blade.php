@@ -47,7 +47,7 @@
                             <div class="col-md-3">
                                 <select name="tahun" class="form-control" required>
                                     <?php for($i=0;$i<5;$i++){?>
-                                    <option value="<?= $tahun+$i ?>" <?php if(($tahun+$i) == $tahun)echo "selected";?>>{{$tahun+$i}}</option>
+                                    <option value="<?= $tahun_ap+$i ?>" <?php if(($tahun_ap+$i) == $tahun)echo "selected";?>>{{$tahun_ap+$i}}</option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -60,7 +60,7 @@
             </div>
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>Review Renstra</h5>
+                    <h5>Review RKPD</h5>
                 </div>
                 <div class="ibox-content">
                     <div class="table-responsive">
