@@ -135,8 +135,10 @@
                                             <p>{{$usul->sts_usulan}}</p>
                                         </div>
                                         <div class="widget p-xs">
+                                            <?php if(!isset($usul->rkpd->id_rkpd)) {?>
                                             <b>TIndakan:</b><br>
                                             <a href="{{url('rkpd/administrator/input-rkpd/manual_msb/'.$usul->id_usul_bappeda)}}" class="btn btn-primary">Input RKPD</a>
+                                            <?php } ?>
                                         </div>
                                     </td>
                                 </tr>

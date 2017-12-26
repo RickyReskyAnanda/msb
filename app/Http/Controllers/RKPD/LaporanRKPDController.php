@@ -40,7 +40,7 @@ class LaporanRKPDController extends Controller
             $tahun = date('Y');
         }
         $skpd = SKPDModel::all();
-
+        $tahun_ap = $this->tahun;
         $data = array();
         if(isset($request->skpd))
             if($request->skpd == 'semua')
@@ -54,7 +54,7 @@ class LaporanRKPDController extends Controller
             $data[$a]->program = RKPDModel::select('id_prog')->groupBy('id_prog')->where('id_skpd',$data[$a]->id_skpd)->get();
         }
 
-        return view('rkpd.rkpd.review-rkpd',compact('skpd','data','request','tahun'));
+        return view('rkpd.rkpd.review-rkpd',compact('skpd','data','request','tahun','tahun_ap'));
         
     }
 
@@ -69,13 +69,13 @@ class LaporanRKPDController extends Controller
 
         if($jenis == 'manual_msb')
             $detail = UsulanBappedaModel::find($id);
-        
+
         return view('rkpd.rkpd.input-rkpd',compact('tahun','bidang','satuan','sumberDana','jenis','skpd','detail'));
     }
 
     public function postInputRKPD(Request $request){
         $this->validate($request,[
-            "id_usul_bappeda"       => "nullable|numeric",
+            "id_usul_bappeda"       => "nullable",
             "sts_rkpd"              => "required",
             "tahun_rkpd"            => "required|numeric",
             "bidang"                => "required|numeric",
@@ -103,13 +103,12 @@ class LaporanRKPDController extends Controller
 
         if($request->sts_rkpd == 'manual_msb'){
             $rkpd->id_kegiatan          = $bappeda->id_keg;
-            $rkpd->nm_kegiatan          = $bappeda->nama_kegiatan;
             $rkpd->id_usul_bappeda      = $request->id_usul_bappeda;
             $rkpd->id_skpd              = $bappeda->id_skpd;
         }elseif($request->sts_rkpd == 'manual_rkpd'){
-            $rkpd->nm_kegiatan          = $request->nama_kegiatan;
-            $rkpd->id_skpd              = $request->id_skpd;
+            $rkpd->id_skpd              = $request->skpd;
         }
+        $rkpd->nm_kegiatan          = $request->nama_kegiatan;
         $rkpd->tahun                = $request->tahun_rkpd;
         $rkpd->id_bidang            = $request->bidang;
         $rkpd->id_prog              = $request->program;
@@ -130,6 +129,7 @@ class LaporanRKPDController extends Controller
         $rkpd->us_en                = Auth::user()->name;
         $rkpd->us_ed                = Auth::user()->name;
         $rkpd->sts_rkpd             = $request->sts_rkpd;
+        $rkpd->sah                  = 'TIDAK';
         $rkpd->save();
 
         return redirect('rkpd/administrator/review-rkpd')->with('pesan','Data RKPD berhasil ditambahkan');

@@ -31,4 +31,8 @@ class UsulanBappedaModel extends Model
 	public function kegiatan(){
 		return $this->hasOne('App\Model\KegiatanModel','id_kegiatan', 'id_keg');
 	}
+
+	public function rkpd(){
+		return $this->hasOne('App\Model\RKPDModel','id_usul_bappeda', 'id_usul_bappeda');
+	}
 }

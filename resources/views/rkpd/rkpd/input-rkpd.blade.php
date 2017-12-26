@@ -51,7 +51,7 @@
                                     <option value="{{$skp->id_skpd}}" 
                                         <?php if(isset($detail->id_skpd))
                                                 if($skp->id_skpd == $detail->id_skpd)
-                                                    echo 'selected="selected" disabled="disabled"';
+                                                    echo 'selected="selected"';
                                         ?>
                                     >{{$skp->nm_skpd}}</option>
                                     @endforeach
@@ -78,9 +78,7 @@
                                     <option value="" disabled selected>Pilih Program</option>
                                     <?php if($jenis == 'manual_msb'){?>
                                     <option value="{{$detail->kegiatan->program->id_prog}}" selected>{{$detail->kegiatan->program->program}}</option>
-                                    <?php }elseif($jenis == 'skpd'){?>
-                                    <option value="" disabled selected>Pilih Program</option>
-                                    <?php } ?>
+                                    <?php }?>
                                 </select>
                             </div>
                         </div>
@@ -88,7 +86,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Nama Kegiatan</label>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" name="nama_kegiatan" value="{{$detail->nama_pekerjaan}}"  required> 
+                                <input type="text" class="form-control" name="nama_kegiatan" value="<?php if(isset($detail->nama_pekerjaan))echo $detail->nama_pekerjaan;?>"  required> 
                                 <span class="help-block m-b-none">Isikan dengan angka tanpa koma(,) atau titik(.)</span>
                             </div>
                         </div>
@@ -96,7 +94,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Lokasi</label>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" name="lokasi" value="{{$detail->desa->nm_desa}}"  required> 
+                                <input type="text" class="form-control" name="lokasi" value="<?php if(isset($detail->desa->nm_desa))echo $detail->desa->nm_desa;?>"  required> 
                                 <span class="help-block m-b-none">Pisahkan lokasi dengan koma(,)</span>
                             </div>
                         </div>

@@ -33,7 +33,7 @@
                 </div>
                 <div class="ibox-content">
                     <div class="row">
-                        <form method="get" action="{{url('rkpd/administrator/review-rkpd')}}">
+                        <form method="get" action="{{url('rkpd/administrator/review-renstra')}}">
                             <div class="col-md-6">
                                 <select name="skpd" class="form-control" required>
                                     <option value="semua" selected>Pilih Semua SKPD</option>
@@ -47,7 +47,7 @@
                             <div class="col-md-3">
                                 <select name="tahun" class="form-control" required>
                                     <?php for($i=0;$i<5;$i++){?>
-                                    <option value="<?= $tahun+$i ?>" <?php if(($tahun+$i) == $tahun)echo "selected";?>>{{$tahun+$i}}</option>
+                                    <option value="<?= $tahun_ap+$i ?>" <?php if(($tahun_ap+$i) == $tahun)echo "selected";?>>{{$tahun_ap+$i}}</option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -175,6 +175,9 @@
                         </tfoot>
                     </table>
                     @endforeach
+                    @if(count($data)<1)
+                        <h3 style="text-align: center">Data Tidak Ada !</h3>
+                    @endif
                     </div>
                 </div>
             </div>

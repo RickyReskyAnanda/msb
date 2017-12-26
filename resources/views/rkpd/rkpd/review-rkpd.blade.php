@@ -183,6 +183,9 @@
                         </tfoot>
                     </table>
                     @endforeach
+                    @if(count($data)<1)
+                        <h3 style="text-align: center">Data Tidak Ada !</h3>
+                    @endif
                     </div>
                 </div>
             </div>
