@@ -39,20 +39,20 @@ class LaporanRKPDController extends Controller
         $data = array();
         if(isset($request->skpd))
             if($request->skpd == 'semua')
-                $data = RKPDModel::select('id_skpd')->groupBy('id_skpd')->where('tahun',$tahun)->get();
+                $data = RKPDModel::select('id_skpd')->groupBy('id_skpd')->where('tahun',$tahun)->where('sah','YA')->get();
             else
-                $data = RKPDModel::select('id_skpd')->groupBy('id_skpd')->where('id_skpd',$request->skpd)->where('tahun',$tahun)->get();
+                $data = RKPDModel::select('id_skpd')->groupBy('id_skpd')->where('id_skpd',$request->skpd)->where('tahun',$tahun)->where('sah','YA')->get();
         else
-            $data = RKPDModel::select('id_skpd')->groupBy('id_skpd')->where('tahun',$tahun)->get();
+            $data = RKPDModel::select('id_skpd')->groupBy('id_skpd')->where('tahun',$tahun)->where('sah','YA')->get();
 
         for ($a=0; $a < count($data); $a++) { 
-            $data[$a]->program = RKPDModel::select('id_prog')->groupBy('id_prog')->where('id_skpd',$data[$a]->id_skpd)->where('tahun',$tahun)->get();
+            $data[$a]->program = RKPDModel::select('id_prog')->groupBy('id_prog')->where('id_skpd',$data[$a]->id_skpd)->where('tahun',$tahun)->where('sah','YA')->get();
 
             for ($b=0; $b < count($data[$a]->program); $b++) { 
                 $data[$a]->program[$b]->kegiatan = RKPDModel::where('id_prog',$data[$a]->program[$b]->id_prog)
                                                             ->where('id_skpd',$data[$a]->id_skpd)
                                                             ->where('tahun',$tahun)
-                                                            ->get();
+                                                            ->where('sah','YA')->get();
             }
         }
 
@@ -63,20 +63,20 @@ class LaporanRKPDController extends Controller
         $data = array();
         if(isset($skpd))
             if($skpd == 'semua')
-                $data = RKPDModel::select('id_skpd')->groupBy('id_skpd')->where('tahun',$tahun)->get();
+                $data = RKPDModel::select('id_skpd')->groupBy('id_skpd')->where('tahun',$tahun)->where('sah','YA')->get();
             else
-                $data = RKPDModel::select('id_skpd')->groupBy('id_skpd')->where('id_skpd',$skpd)->where('tahun',$tahun)->get();
+                $data = RKPDModel::select('id_skpd')->groupBy('id_skpd')->where('id_skpd',$skpd)->where('tahun',$tahun)->where('sah','YA')->get();
         else
-            $data = RKPDModel::select('id_skpd')->groupBy('id_skpd')->where('tahun',$tahun)->get();
+            $data = RKPDModel::select('id_skpd')->groupBy('id_skpd')->where('tahun',$tahun)->where('sah','YA')->get();
 
         for ($a=0; $a < count($data); $a++) { 
-            $data[$a]->program = RKPDModel::select('id_prog')->groupBy('id_prog')->where('id_skpd',$data[$a]->id_skpd)->where('tahun',$tahun)->get();
+            $data[$a]->program = RKPDModel::select('id_prog')->groupBy('id_prog')->where('id_skpd',$data[$a]->id_skpd)->where('tahun',$tahun)->where('sah','YA')->get();
 
             for ($b=0; $b < count($data[$a]->program); $b++) { 
                 $data[$a]->program[$b]->kegiatan = RKPDModel::where('id_prog',$data[$a]->program[$b]->id_prog)
                                                             ->where('id_skpd',$data[$a]->id_skpd)
                                                             ->where('tahun',$tahun)
-                                                            ->get();
+                                                            ->where('sah','YA')->get();
             }
         }
 

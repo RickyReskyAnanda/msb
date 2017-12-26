@@ -68,21 +68,28 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th colspan="8" style="text-align: center;">RINCIAN TAHUN ANGGARAN 2013 <br> KABUPATEN YALIMO</th>
+                                <th colspan="8" style="text-align: center;">RINCIAN TAHUN ANGGARAN {{$tahun}} <br> KABUPATEN YALIMO</th>
                                 <th rowspan="4" style="text-align: center; vertical-align: middle;">Pengesahan</th>
                                 <th rowspan="4" style="text-align: center; vertical-align: middle;">Aksi</th>
                             </tr>
                             <tr>
                                 <th colspan="4">Nama SKPD : {{$skpd->skpd->nm_skpd}}</th>
-                                <th colspan="4" style="text-align: right;">Jumlah (tambah/kurang) : Rp7.500.050.000</th>
+                                <th colspan="4" style="text-align: right;">Jumlah (tambah/kurang) : Rp<?php
+                $jumlahtk = 0;
+                foreach($skpd->bidang as $bidang)
+                    foreach($bidang->program as $program)
+                        foreach($program->kegiatan as $kegiatan)
+                            $jumlahtk+=$kegiatan->tambah_kurang;
+                echo number_format($jumlahtk);
+            ?></th>
                             </tr>
                             <tr>
-                                <th rowspan="2" style="text-align: center;">Kode</th>
-                                <th rowspan="2" style="text-align: center;">Urusan/Program/Kegiatan</th>
+                                <th rowspan="2" style="text-align: center; vertical-align: middle;">Kode</th>
+                                <th rowspan="2" style="text-align: center; vertical-align: middle;">Urusan/Program/Kegiatan</th>
                                 <th colspan="2" style="text-align: center;">Sebelum Perubahan</th>
                                 <th colspan="2" style="text-align: center;">Setelah Perubahan</th>
-                                <th rowspan="2" style="text-align: center;">Bertambah/Berkurang</th>
-                                <th rowspan="2" style="text-align: center;">Keterangan</th>
+                                <th rowspan="2" style="text-align: center; vertical-align: middle;">Bertambah/Berkurang</th>
+                                <th rowspan="2" style="text-align: center; vertical-align: middle;">Keterangan</th>
                             </tr>
                             <tr>
                                 <th style="text-align: center;">Target Kinerja Kuantitatif</th>

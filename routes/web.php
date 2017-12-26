@@ -213,7 +213,7 @@ Route::prefix('rkpd')->group(function () {
 			Route::get('anggaran-perubahan/input/{id}','AnggaranPerubahanController@viewInputAP');
 			Route::post('anggaran-perubahan/input','AnggaranPerubahanController@postInputAP');
 			Route::get('anggaran-perubahan/pengesahan/{id}','AnggaranPerubahanController@pengesahan');
-			Route::get('anggaran-perubahan/report/{skpd}/{tahun}','AnggaranPerubahanController@pengesahan');
+			Route::get('anggaran-perubahan/report/{skpd}/{tahun}','AnggaranPerubahanController@viewExcel');
 			Route::get('anggaran-perubahan/edit/{id}','AnggaranPerubahanController@viewEditAP');
 			Route::post('anggaran-perubahan/edit','AnggaranPerubahanController@postEditAP');
 

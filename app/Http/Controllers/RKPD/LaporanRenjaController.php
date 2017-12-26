@@ -15,9 +15,14 @@ use App\Model\KegiatanModel;
 
 class LaporanRenjaController extends Controller
 {
+    private $tahun_p;
+    public function __construct(){
+        $tahun_p = new DataController;
+        $this->tahun_p = $tahun_p->getTahun();
+    }
+    
     public function viewLaporanRenja(Request $request){
-    	// $tahun = VisiModel::first();
-    	// $tahun = $tahun->per_awal;
+    	
 
     	$skpd = SKPDModel::all();
 

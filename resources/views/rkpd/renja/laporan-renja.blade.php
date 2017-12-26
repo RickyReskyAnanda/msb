@@ -28,10 +28,10 @@
                 </div>
                 <div class="ibox-content">
                     <div class="row">
-                        <form method="get" action="{{url('administrator/laporan-renja')}}">
-                            <div class="col-md-9">
+                        <form method="get" action="{{url('rkpd/administrator/review-rkpd')}}">
+                            <div class="col-md-6">
                                 <select name="skpd" class="form-control" required>
-                                    <option value="" disabled selected="">Pilih SKPD</option>
+                                    <option value="semua" selected>Pilih Semua SKPD</option>
                                     <?php $i=0;
                                     foreach($skpd as $skpd1){
                                     ?>
@@ -40,7 +40,14 @@
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Cari Laporan</button>
+                                <select name="tahun" class="form-control" required>
+                                    <?php for($i=0;$i<5;$i++){?>
+                                    <option value="<?= $tahun_ap+$i ?>" <?php if(($tahun_ap+$i) == $tahun)echo "selected";?>>{{$tahun_ap+$i}}</option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Cari </button>
                             </div>
                         </form>
                     </div>

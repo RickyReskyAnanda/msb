@@ -70,7 +70,7 @@
                         <thead>
                             <tr>
                                 <th colspan="2">SKPD Pelaksana</th>
-                                <th colspan="12"><?php if(isset($skpd->skpd->nm_skpd))echo $skpd->skpd->nm_skpd;?></th>
+                                <th colspan="10"><?php if(isset($skpd->skpd->nm_skpd))echo $skpd->skpd->nm_skpd;?></th>
                             </tr>
                             <tr>
                                 <th rowspan="2">No</th>
@@ -163,8 +163,6 @@
                                 <th>Rp.{{number_format($jumlah_pagu_awal)}}</th>
                                 <th colspan="4"></th>
                                 <th>Rp.{{number_format($jumlah_pagu_akhir)}}</th>
-                                <th></th>
-                                <th></th>
                                 <th></th>
                             </tr>
                         </tfoot>

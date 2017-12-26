@@ -88,6 +88,58 @@ class AnggaranPerubahanController extends Controller
 
         return view('rkpd.anggaran.anggaran',compact('data','skpd','request','tahun','tahun_p'));
     }
+
+    public function viewExcel($skpd,$tahun){
+
+        $data = array();
+        if($skpd == 'semua')
+            $data = AnggaranPerubahanModel::join('trkpd', 'trkpd_ap.id_rkpd', '=', 'trkpd.id_rkpd')
+                                    ->select('id_skpd')
+                                    ->groupBy('id_skpd')
+                                    ->where('trkpd.tahun',$tahun)
+                                    ->orderBy('id_skpd','asc')
+                                    ->get();
+        else
+            $data = AnggaranPerubahanModel::join('trkpd', 'trkpd_ap.id_rkpd', '=', 'trkpd.id_rkpd')
+                                    ->select('id_skpd')
+                                    ->groupBy('id_skpd')
+                                    ->where('trkpd.tahun',$tahun)
+                                    ->where('trkpd.id_skpd',$skpd)
+                                    ->orderBy('id_skpd','asc')
+                                    ->get();
+
+        for ($a=0; $a < count($data); $a++) { 
+            $data[$a]->bidang = AnggaranPerubahanModel::join('trkpd', 'trkpd_ap.id_rkpd', '=', 'trkpd.id_rkpd')
+                                        ->select('id_bidang')
+                                        ->groupBy('id_bidang')
+                                        ->where('trkpd.tahun',$tahun)
+                                        ->where('trkpd.id_skpd',$data[$a]->id_skpd)
+                                        ->orderBy('id_bidang','asc')
+                                        ->get();
+
+            for ($b=0; $b < count($data[$a]->bidang); $b++) { 
+                $data[$a]->bidang[$b]->program = AnggaranPerubahanModel::join('trkpd', 'trkpd_ap.id_rkpd', '=', 'trkpd.id_rkpd')
+                                                ->select('id_prog')
+                                                ->groupBy('id_prog')
+                                                ->where('trkpd.tahun',$tahun)
+                                                ->where('trkpd.id_bidang',$data[$a]->bidang[$b]->id_bidang)
+                                                ->where('trkpd.id_skpd',$data[$a]->id_skpd)
+                                                ->orderBy('id_prog','asc')
+                                                ->get(); 
+                for ($c=0; $c < count($data[$a]->bidang[$b]->program); $c++) { 
+                    $data[$a]->bidang[$b]->program[$c]->kegiatan = AnggaranPerubahanModel::join('trkpd', 'trkpd_ap.id_rkpd', '=', 'trkpd.id_rkpd')
+                                                                    ->where('trkpd.tahun',$tahun)
+                                                                    ->where('trkpd.id_prog',$data[$a]->bidang[$b]->program[$c]->id_prog)
+                                                                    ->where('trkpd.id_bidang',$data[$a]->bidang[$b]->id_bidang)
+                                                                    ->where('trkpd.id_skpd',$data[$a]->id_skpd)
+                                                                    ->orderBy('id_prog','asc')
+                                                                    ->get(); 
+                }
+            }
+        }
+
+        return view('rkpd.anggaran.excel-anggaran',compact('data','tahun'));
+    }
     public function viewInputAP($id_rkpd){
     	$detail = RKPDModel::find($id_rkpd);
     	return view('rkpd.anggaran.input',compact('detail'));
