@@ -33,7 +33,7 @@
                 </div>
                 <div class="ibox-content">
                     <div class="row">
-                        <form method="get" action="{{url('rkpd/administrator/review-rkpd')}}">
+                        <form method="get" action="{{url('rkpd/administrator/laporan-rkpd')}}">
                             <div class="col-md-6">
                                 <select name="skpd" class="form-control" required>
                                     <option value="semua" selected>Pilih Semua SKPD</option>
@@ -52,7 +52,8 @@
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Cari </button>
+                                <button type="submit" class="btn btn-primary" name="cari" value="cari"><i class="fa fa-plus"></i> Cari Laporan</button>
+                                <button type="submit" class="btn btn-primary" name="cari" value="cetak"><i class="fa fa-file-excel-o"></i> Cetak Laporan</button>
                             </div>
                         </form>
                     </div>
@@ -60,7 +61,7 @@
             </div>
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>Review Renstra</h5>
+                    <h5>Laporan RKPD</h5>
                 </div>
                 <div class="ibox-content">
                     <div class="table-responsive">
@@ -76,8 +77,6 @@
                                 <th colspan="5">Rancangan Awal RKPD</th>
                                 <th colspan="5">Hasil Analisis Kebutuhan</th>
                                 <th rowspan="2">Catatan Penting</th>
-                                <th rowspan="2">Pengesahan</th>
-                                <th rowspan="2">Anggaran Perubahan</th>
                             </tr>
                             <tr>
                                 <th>Program / Kegiatan</th>
@@ -104,8 +103,6 @@
                                 <th>10</th>
                                 <th>11</th>
                                 <th>12</th>
-                                <th>13</th>
-                                <th>14</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -124,8 +121,6 @@
                                 <td></td>
                                 <td></td>
                                 <td><b><?php if(isset($prog->program->program))echo ucwords($prog->program->program);?> </b></td>
-                                <td></td>
-                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -158,14 +153,6 @@
                                     ?>
                                 </td>
                                 <td><?php if(isset($kegiatan->catatan_penting))echo $kegiatan->catatan_penting;?></td>
-                                <td>
-                                    <button class="btn btn-warning pengesahan" data-id="{{$kegiatan->id_rkpd}}" <?php if($kegiatan->sah == 'YA')echo "disabled='disabled'";?>>SAH</button>
-                                </td>
-                                <td>
-                                    @if($kegiatan->sah =='YA')
-                                    <a href="{{url('rkpd/administrator/anggaran-perubahan/input/'.$kegiatan->id_rkpd)}}" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
-                                    @endif
-                                </td>
                             </tr>
                             @endforeach
                             @endforeach            
@@ -199,14 +186,4 @@
     </div>
 
 </div>
-<script type="text/javascript">
-    $('.pengesahan').click(function(){
-        var identitas = $(this).attr('data-id');
-        $.get("{{url('rkpd/administrator/review-rkpd/pengesahan')}}/"+identitas,function(data, status){
-            $('button[data-id='+identitas+']').attr('disabled','disabled');
-            alert('data telah disahkan');
-            console.log(data);
-        });
-    });
-</script>
 @endsection

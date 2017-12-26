@@ -25,12 +25,38 @@ class LaporanRKPDController extends Controller
     }
     public function viewLaporanRKPD(Request $request){
 
-        $skpd = SKPDModel::all();
-        $program = array();
-        if (isset($request->skpd)) {
-            $program = RKPDModel::select('id_prog')->groupBy('id_prog')->where('id_skpd',$request->skpd)->get();
+       if(isset($request->cari)){
+            if($request->cari == 'cetak')
+                return redirect('rkpd/administrator/laporan-rkpd/report/'.$request->skpd.'/'.$request->tahun);
+       }
+       if(isset($request->tahun)){
+            $tahun = $request->tahun;
+        }else{
+            $tahun = date('Y');
         }
-        return view('rkpd.rkpd.laporan-rkpd',compact('program','skpd','request'));
+        $skpd = SKPDModel::all();
+        $tahun_ap = $this->tahun;
+        $data = array();
+        if(isset($request->skpd))
+            if($request->skpd == 'semua')
+                $data = RKPDModel::select('id_skpd')->groupBy('id_skpd')->where('tahun',$tahun)->get();
+            else
+                $data = RKPDModel::select('id_skpd')->groupBy('id_skpd')->where('id_skpd',$request->skpd)->where('tahun',$tahun)->get();
+        else
+            $data = RKPDModel::select('id_skpd')->groupBy('id_skpd')->where('tahun',$tahun)->get();
+
+        for ($a=0; $a < count($data); $a++) { 
+            $data[$a]->program = RKPDModel::select('id_prog')->groupBy('id_prog')->where('id_skpd',$data[$a]->id_skpd)->where('tahun',$tahun)->get();
+
+            for ($b=0; $b < count($data[$a]->program); $b++) { 
+                $data[$a]->program[$b]->kegiatan = RKPDModel::where('id_prog',$data[$a]->program[$b]->id_prog)
+                                                            ->where('id_skpd',$data[$a]->id_skpd)
+                                                            ->where('tahun',$tahun)
+                                                            ->get();
+            }
+        }
+
+        return view('rkpd.rkpd.laporan-rkpd',compact('skpd','data','request','tahun','tahun_ap'));
     }
 
     public function reviewRKPD(Request $request){
