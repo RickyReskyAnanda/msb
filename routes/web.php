@@ -207,6 +207,7 @@ Route::prefix('rkpd')->group(function () {
 			Route::post('input-rkpd','LaporanRKPDController@postInputRKPD');
 			Route::get('review-rkpd','LaporanRKPDController@reviewRKPD');
 			Route::get('review-rkpd/pengesahan/{id}','LaporanRKPDController@pengesahan');
+			Route::get('laporan-rkpd/report/{skpd}/{tahun}','LaporanRKPDController@viewExcel');
 
 			Route::get('anggaran-perubahan','AnggaranPerubahanController@viewAP');
 			Route::get('anggaran-perubahan/input/{id}','AnggaranPerubahanController@viewInputAP');

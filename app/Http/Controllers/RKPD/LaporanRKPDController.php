@@ -59,6 +59,31 @@ class LaporanRKPDController extends Controller
         return view('rkpd.rkpd.laporan-rkpd',compact('skpd','data','request','tahun','tahun_ap'));
     }
 
+    public function viewExcel($skpd,$tahun){
+        $data = array();
+        if(isset($skpd))
+            if($skpd == 'semua')
+                $data = RKPDModel::select('id_skpd')->groupBy('id_skpd')->where('tahun',$tahun)->get();
+            else
+                $data = RKPDModel::select('id_skpd')->groupBy('id_skpd')->where('id_skpd',$skpd)->where('tahun',$tahun)->get();
+        else
+            $data = RKPDModel::select('id_skpd')->groupBy('id_skpd')->where('tahun',$tahun)->get();
+
+        for ($a=0; $a < count($data); $a++) { 
+            $data[$a]->program = RKPDModel::select('id_prog')->groupBy('id_prog')->where('id_skpd',$data[$a]->id_skpd)->where('tahun',$tahun)->get();
+
+            for ($b=0; $b < count($data[$a]->program); $b++) { 
+                $data[$a]->program[$b]->kegiatan = RKPDModel::where('id_prog',$data[$a]->program[$b]->id_prog)
+                                                            ->where('id_skpd',$data[$a]->id_skpd)
+                                                            ->where('tahun',$tahun)
+                                                            ->get();
+            }
+        }
+
+        return view('rkpd.rkpd.excel-rkpd',compact('data'));
+    }
+
+
     public function reviewRKPD(Request $request){
         if(isset($request->tahun)){
             $tahun = $request->tahun;
@@ -169,15 +194,7 @@ class LaporanRKPDController extends Controller
 
     }
 
-    public function viewExcel($skpd,$kode){
-        $i=$kode;
-
-        $tahun = VisiModel::first();
-        $tahun = $tahun->per_awal;
-        $program = RKPDModel::select('id_prog')->groupBy('id_prog')->where('id_skpd',$skpd)->get();
-
-        return view('rkpd.rkpd.excel-rkpd',compact('skpd','i','tahun','program'));
-    }
+    
 
     public function pengesahan($id){
         $rkpd = RKPDModel::find($id);
