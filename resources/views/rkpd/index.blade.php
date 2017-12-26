@@ -32,7 +32,7 @@
         <nav class="navbar-default navbar-static-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav metismenu" id="side-menu">
-                    <li class="nav-header" style="background:url('{{asset('images/logo.png')}}');    height: 156px; ">
+                    <li class="nav-header" style="background:url('{{asset('images/logo1.png')}}');    height: 156px; ">
                         <div class="dropdown profile-element">
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear"> <span class="block m-t-xs" > <strong class="font-bold" style="color:#fff">{{strtoupper(Auth::user()->name)}}</strong>
@@ -40,7 +40,7 @@
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
                                 <li><a href="{{url('rkpd/administrator/profil')}}">Profil</a></li>
                                 <li class="divider"></li>
-                                <li><a href="{{url('logout')}}">Logout</a></li>
+                                <li><a href="{{url('logout/rkpd')}}">Logout</a></li>
                             </ul>
                         </div>
                         <div class="logo-element">

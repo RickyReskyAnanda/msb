@@ -13,8 +13,8 @@ class UserController extends Controller
 {
     public function viewUser(){
         $user = array();
-        if(Auth::user()->level == 'bappeda')$user = User::where('level','bappeda')->get();
-        else $user = User::all();
+        if(Auth::user()->level == 'bappeda')$user = User::where('level','bappeda')->where('program','rkpd')->get();
+        else $user = User::where('program','rkpd')->get();
     	return view('rkpd.user.tabel-user',compact('user'));
     }
 
@@ -43,14 +43,16 @@ class UserController extends Controller
         $user->username = $request->username;
         $user->password = bcrypt($request->password);
         $user->level    = $request->level;
+        $user->program  = 'rkpd';
         $user->status   = $request->status;
 
-        $user->us_en = Auth::user()->name;
-        $user->us_ed = Auth::user()->name;
+        $user->user_create = Auth::user()->name;
+        $user->user_update = Auth::user()->name;
+        $user->remember_token = bcrypt($request->password);
         $user->save();
 
 
-        return redirect('administrator/user/')->with('pesan', 'User '.$user->name.' telah ditambahkan !');
+        return redirect('rkpd/administrator/user')->with('pesan', 'User '.$user->name.' telah ditambahkan !');
     }
     public function viewEditUser($id){
         $user = User::find($id);
@@ -75,6 +77,8 @@ class UserController extends Controller
             $user->username = $request->username;
             $user->password = bcrypt($request->password);
             $user->status = $request->status;
+
+            $user->user_update = Auth::user()->name;
             $user->save();
 
         }else{
@@ -90,19 +94,9 @@ class UserController extends Controller
             $user->name = $request->name;
             $user->username = $request->username;
             $user->status = $request->status;
+            $user->user_update = Auth::user()->name;
             $user->save();
         }
-        return redirect('administrator/user')->with('pesan','Data User '.$user->name.' Telah Diperbaharui');
+        return redirect('rkpd/administrator/user')->with('pesan','Data User '.$user->name.' Telah Diperbaharui');
     }
-    
-    public function viewDeleteUser($level,$id){
-        return view('rkpd.admin.manajemenuser.deleteuser',compact('id','level'));
-    }
-    public function deleteUser($id,$level){
-        $user = User::find($id);
-       	$nama = $user->name;
-        $user->delete();
-        return redirect('administrator/manajemen-user/'.$user->level)->with('pesan', 'Data User '.$nama.' telah dihapus !');
-    }
-
 }

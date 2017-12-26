@@ -75,13 +75,13 @@
                             <tr>
                                 <th colspan="4">Nama SKPD : {{$skpd->skpd->nm_skpd}}</th>
                                 <th colspan="4" style="text-align: right;">Jumlah (tambah/kurang) : Rp<?php
-                $jumlahtk = 0;
-                foreach($skpd->bidang as $bidang)
-                    foreach($bidang->program as $program)
-                        foreach($program->kegiatan as $kegiatan)
-                            $jumlahtk+=$kegiatan->tambah_kurang;
-                echo number_format($jumlahtk);
-            ?></th>
+                                    $jumlahtk = 0;
+                                    foreach($skpd->bidang as $bidang)
+                                        foreach($bidang->program as $program)
+                                            foreach($program->kegiatan as $kegiatan)
+                                                $jumlahtk+=$kegiatan->tambah_kurang;
+                                    echo number_format($jumlahtk);
+                                ?></th>
                             </tr>
                             <tr>
                                 <th rowspan="2" style="text-align: center; vertical-align: middle;">Kode</th>

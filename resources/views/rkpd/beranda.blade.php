@@ -9,7 +9,7 @@
                     <i class="fa fa-info-circle"></i> Selamat Datang Tim
                 </div>
                 <div class="panel-body">
-                    <p>Anda masuk sebagai Bappeda.</p>
+                    <p>Anda masuk sebagai {{ucfirst(Auth::user()->level)}}.</p>
                 </div>
             </div>
         </div>

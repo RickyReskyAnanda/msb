@@ -17,24 +17,28 @@
     }
 </style>
 
-<table border='1'>
+@foreach($data as $skpd)      
+<table border="1">
     <thead>
         <tr>
-            <th colspan="12"><h2 align="center">Rumusan Rencana Program dan Kegiatan SKPD Tahun {{$kode}}</h2></th>
+            <th colspan="10"><h3 align="center">Rumusan Rencana Program dan Kegiatan SKPD Tahun {{$tahun}}</h3></th>
         </tr>
         <tr>
-            <th colspan="12"><h2 align="center">dan Prakiraan Maju Tahun {{$kode+1}}</h2></th>
+            <th colspan="10"><h3 align="center">dan Prakiraan Maju Tahun {{$tahun+1}}</h3></th>
         </tr>
         <tr>
-            <th colspan="12"><h2 align="center">Kabupaten Yalimo</h2></th>
+            <th colspan="10"><h3 align="center">Kabupaten Yalimo</h3></th>
+        </tr>
+        <tr>
+            <th colspan="10"><h3 align="left">SKPD : {{$skpd->skpd->nm_skpd}}</h3></th>
         </tr>
         <tr>
             <th rowspan="2">Kode</th>
             <th rowspan="2">Urusan/Bidang Urusan Pemerintah Daerah dan Program/Kegiatan</th>
             <th rowspan="2">Indikator Kinerja Program/Kegiatan</th>
-            <th colspan="4">Rencana Tahun 2018 (tahun rencana)</th>
+            <th colspan="4">Rencana Tahun {{$tahun}} (tahun rencana)</th>
             <th rowspan="2">Catatan Penting</th>
-            <th colspan="2">Perkiraan Maju Rencana 2019</th>
+            <th colspan="2">Perkiraan Maju Rencana {{$tahun+1}}</th>
         </tr>
         <tr>
             <th>Lokasi</th>
@@ -58,13 +62,14 @@
         </tr>
     </thead>
     <tbody>
-        <?php $i=0; ?>
-        @foreach($renja as $waj)
-        @if($waj->sts == 1)
-        @if($i == 0)
-        <?php $i++;?>
+        <?php $wajib = 0;?>
+        @foreach($skpd->bidang as $bidang)
+        @if($bidang->bidang->sts == '1')
+        <?php $wajib++;
+        if($wajib == 1){
+        ?>
         <tr>
-            <th>1</th>
+            <td><b>01</b></td>
             <td><b>Wajib</b></td>
             <td></td>
             <td></td>
@@ -75,11 +80,11 @@
             <td></td>
             <td></td>
         </tr>
-        @endif
+        <?php } ?>
 
         <tr>
-            <td>1.{{$waj->kd_bidang}}</td>
-            <td style="padding-left: 10px"><b>{{ucwords($waj->bidang)}}</b></td>
+            <td><b>01.<?php if(isset($bidang->bidang->kode_bidang))echo $bidang->bidang->kode_bidang?></b></td>
+            <td><b><?php if(isset($bidang->bidang->bidang))echo $bidang->bidang->bidang?></b></td>
             <td></td>
             <td></td>
             <td></td>
@@ -89,108 +94,60 @@
             <td></td>
             <td></td>
         </tr>
-            @foreach($waj->getprogram as $getprogram)
-            <tr>
-                <td>1.{{$waj->kd_bidang.'.'.$getprogram->kd_prog}}</td>
-                <td style="padding-left: 20px"><b>{{ucwords($getprogram->program)}}</b></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-                @foreach($getprogram->getkegiatan as $getkegiatan)
-                <tr>
-                    <td>1.{{$waj->kd_bidang.'.'.$getprogram->kd_prog.'.'.$getkegiatan->kd_kegiatan}}</td>
-                    <td style="padding-left: 30px">{{ucwords($getkegiatan->nm_kegiatan)}}</td>
-                    <td><?php if(isset($getkegiatan->detail->indikator_kinerja))echo $getkegiatan->detail->indikator_kinerja;?></td>
-                    <td><?php if(isset($getkegiatan->detail->lokasi))echo $getkegiatan->detail->lokasi;?></td>
-                    <td>
-                        <?php 
-
-                        if($kode == 0 && isset($getkegiatan->detail->target_capaian_1))echo $getkegiatan->detail->target_capaian_1;
-                        elseif($kode == 1 && isset($getkegiatan->detail->target_capaian_2))echo $getkegiatan->detail->target_capaian_2;
-                        elseif($kode == 2 && isset($getkegiatan->detail->target_capaian_3))echo $getkegiatan->detail->target_capaian_3;
-                        elseif($kode == 3 && isset($getkegiatan->detail->target_capaian_4))echo $getkegiatan->detail->target_capaian_4;
-                        elseif($kode == 4 && isset($getkegiatan->detail->target_capaian_5))echo $getkegiatan->detail->target_capaian_5;
-                        ?>
-                    </td>
-                    <td>
-                        <?php 
-                        if($kode == 0 && isset($getkegiatan->detail->pagu_indikatif_1)){
-                            echo number_format($getkegiatan->detail->pagu_indikatif_1);
-                            $jumlah_pagu_awal+=$getkegiatan->detail->pagu_indikatif_1;
-                        }
-                        elseif($kode == 1 && isset($getkegiatan->detail->pagu_indikatif_2)){
-                            echo number_format($getkegiatan->detail->pagu_indikatif_2);
-                            $jumlah_pagu_awal+=$getkegiatan->detail->pagu_indikatif_2;
-                        }
-                        elseif($kode == 2 && isset($getkegiatan->detail->pagu_indikatif_3)){
-                            echo number_format($getkegiatan->detail->pagu_indikatif_3);
-                            $jumlah_pagu_awal+=$getkegiatan->detail->pagu_indikatif_3;
-                        }
-                        elseif($kode == 3 && isset($getkegiatan->detail->pagu_indikatif_4)){
-                            echo number_format($getkegiatan->detail->pagu_indikatif_4);
-                            $jumlah_pagu_awal+=$getkegiatan->detail->pagu_indikatif_4;
-                        }
-                        elseif($kode == 4 && isset($getkegiatan->detail->pagu_indikatif_5)){
-                            echo number_format($getkegiatan->detail->pagu_indikatif_5);
-                            $jumlah_pagu_awal+=$getkegiatan->detail->pagu_indikatif_5;
-                        }
-                        ?>
-                    </td>
-                    <td><?php if(isset($getkegiatan->detail->sumber_dana))echo $getkegiatan->detail->sumber_dana;?></td>
-                    <td><?php if(isset($getkegiatan->detail->catatan_penting))echo $getkegiatan->detail->catatan_penting;?></td>
-                    <td>
-                        <?php 
-                        if($kode == 0 && isset($getkegiatan->detail->prakiraan_target1))echo $getkegiatan->detail->prakiraan_target1;
-                        elseif($kode == 1 && isset($getkegiatan->detail->prakiraan_target2)) echo $getkegiatan->detail->prakiraan_target2;
-                        elseif($kode == 2 && isset($getkegiatan->detail->prakiraan_target3)) echo $getkegiatan->detail->prakiraan_target3;
-                        elseif($kode == 3 && isset($getkegiatan->detail->prakiraan_target4)) echo $getkegiatan->detail->prakiraan_target4;
-                        elseif($kode == 4 && isset($getkegiatan->detail->prakiraan_target5)) echo $getkegiatan->detail->prakiraan_target5;
-                        ?>
-                    </td>
-                    <td>
-                        <?php 
-                        if($kode == 0 && isset($getkegiatan->detail->prakiraan_pagu1)){
-                            echo number_format($getkegiatan->detail->prakiraan_pagu1);
-                            $jumlah_pagu_akhir+=$getkegiatan->detail->prakiraan_pagu1;
-                        }
-                        elseif($kode == 1 && isset($getkegiatan->detail->prakiraan_pagu2)) {
-                            echo number_format($getkegiatan->detail->prakiraan_pagu2);
-                            $jumlah_pagu_akhir+=$getkegiatan->detail->prakiraan_pagu2;
-                        }
-                        elseif($kode == 2 && isset($getkegiatan->detail->prakiraan_pagu3)) {
-                            echo number_format($getkegiatan->detail->prakiraan_pagu3);
-                            $jumlah_pagu_akhir+=$getkegiatan->detail->prakiraan_pagu3;
-                        }
-                        elseif($kode == 3 && isset($getkegiatan->detail->prakiraan_pagu4)) {
-                            echo number_format($getkegiatan->detail->prakiraan_pagu4);
-                            $jumlah_pagu_akhir+=$getkegiatan->detail->prakiraan_pagu4;
-                        }
-                        elseif($kode == 4 && isset($getkegiatan->detail->prakiraan_pagu5)) {
-                            echo number_format($getkegiatan->detail->prakiraan_pagu5);
-                            $jumlah_pagu_akhir+=$getkegiatan->detail->prakiraan_pagu5;
-                        }
-                        ?>
-                    </td>
-                </tr>
-                @endforeach
-            @endforeach
-        
+        <tr>
+            <td><b>01.<?php if(isset($bidang->bidang->kode_bidang))echo $bidang->bidang->kode_bidang?>.<?php if(isset($skpd->skpd->kode))echo $skpd->skpd->kode?></b></td>
+            <td><b><?php if(isset($skpd->skpd->nm_skpd))echo $skpd->skpd->nm_skpd?></b></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        @foreach($bidang->program as $program)
+        <tr>
+            <td><b>01.{{$bidang->bidang->kode_bidang}}.{{$skpd->skpd->kode}}.{{$program->program->kd_prog}}</b></td>
+            <td><b>{{$program->program->program}}</b></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <?php $kode=0;?>
+        @foreach($program->kegiatan as $kegiatan)
+        <tr>
+            <td><b>01.{{$bidang->bidang->kode_bidang}}.{{$skpd->skpd->kode}}.{{$program->program->kd_prog}}.{{$kode++}}</b></td>
+            <td>{{$kegiatan->nm_kegiatan}}</td>
+            <td>{{$kegiatan->indikator_kinerja}}</td>
+            <td>{{$kegiatan->lokasi}}</td>
+            <td>{{number_format($kegiatan->target).' '.$kegiatan->satuan}}</td>
+            <td>Rp.{{number_format($kegiatan->pagu_indikatif)}}</td>
+            <td>{{$kegiatan->sumber_dana}}</td>
+            <td>{{$kegiatan->catatan_penting}}</td>
+            <td>{{number_format($kegiatan->prakiraan_target).' '.$kegiatan->satuan}}</td>
+            <td>Rp.{{number_format($kegiatan->prakiraan_pagu)}}</td>
+        </tr>
+        @endforeach
+        @endforeach
         @endif
         @endforeach
 
-        <?php $i=0; ?>
-        @foreach($renja as $pilihan)
-        @if($pilihan->sts == 2)
-        @if($i==0)
-        <?php $i++;?>
+
+
+        <?php $pilihan = 0;?>
+        @foreach($skpd->bidang as $bidang)
+        @if($bidang->bidang->sts == '2')
+        <?php $pilihan++;
+        if($pilihan == 1){
+        ?>
         <tr>
-            <td><b>2</b></td>
+            <td><b>02</b></td>
             <td><b>Pilihan</b></td>
             <td></td>
             <td></td>
@@ -201,10 +158,11 @@
             <td></td>
             <td></td>
         </tr>
-        @endif
+        <?php } ?>
+
         <tr>
-            <td>2.{{$pilihan->kd_bidang}}</td>
-            <td style="padding-left: 10px"><b>{{ucwords($pilihan->bidang)}}</b></td>
+            <td><b>02.<?php if(isset($bidang->bidang->kode_bidang))echo $bidang->bidang->kode_bidang?></b></td>
+            <td><b><?php if(isset($bidang->bidang->bidang))echo $bidang->bidang->bidang?></b></td>
             <td></td>
             <td></td>
             <td></td>
@@ -214,107 +172,56 @@
             <td></td>
             <td></td>
         </tr>
-            @foreach($pilihan->getprogram as $getprogram)
-            <tr>
-                <td>2.{{$pilihan->kd_bidang.'.'.$getprogram->kd_prog}}</td>
-                <td style="padding-left: 20px"><b>{{ucwords($getprogram->program)}}</b></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-                @foreach($getprogram->getkegiatan as $getkegiatan)
-                <tr>
-                    <td>2.{{$waj->kd_bidang.'.'.$getprogram->kd_prog.'.'.$getkegiatan->kd_kegiatan}}</td>
-                    <td style="padding-left: 30px">{{ucwords($getkegiatan->nm_kegiatan)}}</td>
-                    <td><?php if(isset($getkegiatan->detail->indikator_kinerja))echo $getkegiatan->detail->indikator_kinerja;?></td>
-                    <td><?php if(isset($getkegiatan->detail->lokasi))echo $getkegiatan->detail->lokasi;?></td>
-                    <td>
-                        <?php 
-
-                        if($kode == 0 && isset($getkegiatan->detail->target_capaian_1))echo $getkegiatan->detail->target_capaian_1;
-                        elseif($kode == 1 && isset($getkegiatan->detail->target_capaian_2))echo $getkegiatan->detail->target_capaian_2;
-                        elseif($kode == 2 && isset($getkegiatan->detail->target_capaian_3))echo $getkegiatan->detail->target_capaian_3;
-                        elseif($kode == 3 && isset($getkegiatan->detail->target_capaian_4))echo $getkegiatan->detail->target_capaian_4;
-                        elseif($kode == 4 && isset($getkegiatan->detail->target_capaian_5))echo $getkegiatan->detail->target_capaian_5;
-                        ?>
-                    </td>
-                    <td>
-                        <?php 
-                        if($kode == 0 && isset($getkegiatan->detail->pagu_indikatif_1)){
-                            echo number_format($getkegiatan->detail->pagu_indikatif_1);
-                            $jumlah_pagu_awal+=$getkegiatan->detail->pagu_indikatif_1;
-                        }
-                        elseif($kode == 1 && isset($getkegiatan->detail->pagu_indikatif_2)){
-                            echo number_format($getkegiatan->detail->pagu_indikatif_2);
-                            $jumlah_pagu_awal+=$getkegiatan->detail->pagu_indikatif_2;
-                        }
-                        elseif($kode == 2 && isset($getkegiatan->detail->pagu_indikatif_3)){
-                            echo number_format($getkegiatan->detail->pagu_indikatif_3);
-                            $jumlah_pagu_awal+=$getkegiatan->detail->pagu_indikatif_3;
-                        }
-                        elseif($kode == 3 && isset($getkegiatan->detail->pagu_indikatif_4)){
-                            echo number_format($getkegiatan->detail->pagu_indikatif_4);
-                            $jumlah_pagu_awal+=$getkegiatan->detail->pagu_indikatif_4;
-                        }
-                        elseif($kode == 4 && isset($getkegiatan->detail->pagu_indikatif_5)){
-                            echo number_format($getkegiatan->detail->pagu_indikatif_5);
-                            $jumlah_pagu_awal+=$getkegiatan->detail->pagu_indikatif_5;
-                        }
-                        ?>
-                    </td>
-                    <td><?php if(isset($getkegiatan->detail->sumber_dana))echo $getkegiatan->detail->sumber_dana;?></td>
-                    <td><?php if(isset($getkegiatan->detail->catatan_penting))echo $getkegiatan->detail->catatan_penting;?></td>
-                    <td>
-                        <?php 
-                        if($kode == 0 && isset($getkegiatan->detail->prakiraan_target1))echo $getkegiatan->detail->prakiraan_target1;
-                        elseif($kode == 1 && isset($getkegiatan->detail->prakiraan_target2)) echo $getkegiatan->detail->prakiraan_target2;
-                        elseif($kode == 2 && isset($getkegiatan->detail->prakiraan_target3)) echo $getkegiatan->detail->prakiraan_target3;
-                        elseif($kode == 3 && isset($getkegiatan->detail->prakiraan_target4)) echo $getkegiatan->detail->prakiraan_target4;
-                        elseif($kode == 4 && isset($getkegiatan->detail->prakiraan_target5)) echo $getkegiatan->detail->prakiraan_target5;
-                        ?>
-                    </td>
-                    <td>
-                        <?php 
-                        if($kode == 0 && isset($getkegiatan->detail->prakiraan_pagu1)){
-                            echo number_format($getkegiatan->detail->prakiraan_pagu1);
-                            $jumlah_pagu_akhir+=$getkegiatan->detail->prakiraan_pagu1;
-                        }
-                        elseif($kode == 1 && isset($getkegiatan->detail->prakiraan_pagu2)) {
-                            echo number_format($getkegiatan->detail->prakiraan_pagu2);
-                            $jumlah_pagu_akhir+=$getkegiatan->detail->prakiraan_pagu2;
-                        }
-                        elseif($kode == 2 && isset($getkegiatan->detail->prakiraan_pagu3)) {
-                            echo number_format($getkegiatan->detail->prakiraan_pagu3);
-                            $jumlah_pagu_akhir+=$getkegiatan->detail->prakiraan_pagu3;
-                        }
-                        elseif($kode == 3 && isset($getkegiatan->detail->prakiraan_pagu4)) {
-                            echo number_format($getkegiatan->detail->prakiraan_pagu4);
-                            $jumlah_pagu_akhir+=$getkegiatan->detail->prakiraan_pagu4;
-                        }
-                        elseif($kode == 4 && isset($getkegiatan->detail->prakiraan_pagu5)) {
-                            echo number_format($getkegiatan->detail->prakiraan_pagu5);
-                            $jumlah_pagu_akhir+=$getkegiatan->detail->prakiraan_pagu5;
-                        }
-                        ?>
-                    </td>
-                </tr>
-                @endforeach
-            @endforeach
-        
+        <tr>
+            <td><b>02.<?php if(isset($bidang->bidang->kode_bidang))echo $bidang->bidang->kode_bidang?>.<?php if(isset($skpd->skpd->kode))echo $skpd->skpd->kode?></b></td>
+            <td><b><?php if(isset($skpd->skpd->nm_skpd))echo $skpd->skpd->nm_skpd?></b></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        @foreach($bidang->program as $program)
+        <tr>
+            <td><b>02.{{$bidang->bidang->kode_bidang}}.{{$skpd->skpd->kode}}.{{$program->program->kd_prog}}</b></td>
+            <td><b>{{$program->program->program}}</b></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <?php $kode=0;?>
+        @foreach($program->kegiatan as $kegiatan)
+        <tr>
+            <td><b>02.{{$bidang->bidang->kode_bidang}}.{{$skpd->skpd->kode}}.{{$program->program->kd_prog}}.{{$kode++}}</b></td>
+            <td>{{$kegiatan->nm_kegiatan}}</td>
+            <td>{{$kegiatan->indikator_kinerja}}</td>
+            <td>{{$kegiatan->lokasi}}</td>
+            <td>{{number_format($kegiatan->target).' '.$kegiatan->satuan}}</td>
+            <td>Rp.{{number_format($kegiatan->pagu_indikatif)}}</td>
+            <td>{{$kegiatan->sumber_dana}}</td>
+            <td>{{$kegiatan->catatan_penting}}</td>
+            <td>{{number_format($kegiatan->prakiraan_target).' '.$kegiatan->satuan}}</td>
+            <td>Rp.{{number_format($kegiatan->prakiraan_pagu)}}</td>
+        </tr>
+        @endforeach
+        @endforeach
         @endif
         @endforeach
 
         <tr>
             <th colspan='5'>Jumlah</th>
-            <th>Rp.{{number_format($jumlah_pagu_awal)}}</th>
+            <th>Rp.</th>
             <th colspan="3"></th>
-            <th>Rp.{{number_format($jumlah_pagu_akhir)}}</th>
+            <th>Rp.</th>
         </tr>
-
     </tbody>
 </table>
+@endforeach

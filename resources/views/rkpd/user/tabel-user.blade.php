@@ -1,4 +1,4 @@
-@extends('admin.index')
+@extends('rkpd.index')
 
 @section('content')
 <style type="text/css">
@@ -33,7 +33,7 @@
                     <h5>MASTER USER</h5>
                 </div>
                 <div class="ibox-content">
-                    <a href="{{url('administrator/user/tambah')}}" class="btn btn-primary ">Tambah User</a>
+                    <a href="{{url('rkpd/administrator/user/tambah')}}" class="btn btn-primary ">Tambah User</a>
 
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover dataTables-example" >
@@ -57,7 +57,7 @@
                                     <td>{{$users->level}}</td>
                                     <td>{{$users->status}}</td>
                                     <td class="center">
-                                        <a href="{{url('administrator/user/edit/'.$users->id)}}" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
+                                        <a href="{{url('rkpd/administrator/user/edit/'.$users->id)}}" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
                                     </td>
                                 </tr>
                                 @endforeach

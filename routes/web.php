@@ -199,6 +199,8 @@ Route::prefix('rkpd')->group(function () {
 		Route::prefix('administrator')->group(function () {
 				
 			Route::get('/','BasicController@viewBeranda');
+			Route::get('profil','BasicController@profil');
+			Route::post('profil','BasicController@postProfil');
 
 			Route::get('laporan-rkpd','LaporanRKPDController@viewLaporanRKPD');
 			Route::get('laporan-rkpd/tambah','LaporanRKPDController@viewLaporanRKPD');
@@ -220,7 +222,7 @@ Route::prefix('rkpd')->group(function () {
 			Route::get('laporan-renja','LaporanRenjaController@viewLaporanRenja');
 			Route::get('laporan-renja/{id}/{kode}','LaporanRenjaController@viewEdit');
 			Route::post('laporan-renja/edit','LaporanRenjaController@postEdit');
-			Route::get('excel-renja/{skpd}/{kode}','LaporanRenjaController@viewExcel');
+			Route::get('laporan-renja/report/{skpd}/{tahun}','LaporanRenjaController@viewExcel');
 
 			Route::get('review-renstra','RenstraController@viewRenstra');
 			Route::get('review-renstra/edit/{id}','RenstraController@viewEditRenstra');

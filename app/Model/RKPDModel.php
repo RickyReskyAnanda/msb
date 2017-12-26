@@ -26,6 +26,10 @@ class RKPDModel extends Model
 		return $this->hasOne('App\Model\KegiatanModel','id_kegiatan','id_kegiatan');
 	}
 
+	public function bidang(){
+		return $this->hasOne('App\Model\BidangModel','id_bidang','id_bidang');
+	}
+
 	public function hak(){
 		return $this->hasMany('App\Model\HAKModel','id_kegiatan','id_kegiatan');
 	}

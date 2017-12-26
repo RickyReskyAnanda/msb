@@ -1,4 +1,4 @@
-@extends('admin.index')
+@extends('rkpd.index')
 
 @section('content')
 <div class="row wrapper border-bottom white-bg page-heading">
@@ -6,10 +6,10 @@
         <h2>Tambah User</h2>
         <ol class="breadcrumb">
             <li>
-                <a href="{{url('administrator')}}">Beranda</a>
+                <a href="{{url('rkpd/administrator')}}">Beranda</a>
             </li>
             <li>
-                <a href="{{url('administrator/user')}}">Master User</a>
+                <a href="{{url('rkpd/administrator/user')}}">Master User</a>
             </li>
             <li class="active">
                 <strong>Tambah User</strong>
@@ -25,7 +25,7 @@
                         <h5>TAMBAH USER</h5>
                     </div>
                     <div class="ibox-content">
-                        <form method="post" class="form-horizontal" action="{{url('administrator/user/tambah')}}">
+                        <form method="post" class="form-horizontal" action="{{url('rkpd/administrator/user/tambah')}}">
                             {{csrf_field()}}
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Nama</label>
@@ -85,8 +85,8 @@
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                                 <div class="col-sm-4 col-sm-offset-2">
-                                    <button class="btn btn-white" type="reset">Cancel</button>
-                                    <button class="btn btn-primary" type="submit">Save changes</button>
+                                    <button class="btn btn-white" type="reset">Batal</button>
+                                    <button class="btn btn-primary" type="submit">Simpan</button>
                                 </div>
                             </div>
                         </form>

@@ -61,6 +61,7 @@ class UsulanDesaController extends Controller
         $desa->tipe_keg         = $usulan->tipe_keg;
         $desa->id_user          = Auth::user()->id;
         $desa->kd_desa          = Auth::user()->kode_wilayah;
+        $desa->id_pekerjaan     = $usulan->id_pekerjaan;
         if(isset($usulan->id_kegiatan)){
             $desa->id_keg           = $usulan->id_kegiatan;
         }
@@ -154,7 +155,6 @@ class UsulanDesaController extends Controller
 
     public function viewEditUsulan($id){
         $detail = UsulanDesaModel::find($id);
-
         $usulan = KamusUsulanModel::find($detail->id_pekerjaan);
         $jalan = JalanModel::where('kd_desa',Auth::user()->kode_wilayah)->get();
 
