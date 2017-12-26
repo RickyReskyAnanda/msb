@@ -222,6 +222,8 @@ Route::prefix('rkpd')->group(function () {
 			Route::get('excel-renja/{skpd}/{kode}','LaporanRenjaController@viewExcel');
 
 			Route::get('review-renstra','RenstraController@viewRenstra');
+			Route::get('review-renstra/edit/{id}','RenstraController@viewEditRenstra');
+			Route::post('review-renstra/edit','RenstraController@postEditRenstra');
 
 			Route::get('review-musrenbang','MusrenbangController@viewMusrenbang');
 

@@ -27,8 +27,8 @@
                         <h5>INPUT RKPD</h5>
                     </div>
                     <div class="ibox-content">
-                        <?php if(isset($id_usul_bappeda)){?>
-                        <input type="hidden" name="id_usul_bappeda" value="{{$id_usul_bappeda}}">
+                        <?php if(isset($detail->id_usul_bappeda)){?>
+                        <input type="hidden" name="id_usul_bappeda" value="{{$detail->id_usul_bappeda}}">
                         <?php } ?>
                         <input type="hidden" name="sts_rkpd" value="{{$jenis}}">
                         <div class="form-group">
@@ -48,7 +48,12 @@
                                 <select class="form-control" name="skpd" required>
                                     <option value="" disabled selected>Pilih SKPD Pelaksana</option>
                                     @foreach($skpd as $skp)
-                                    <option value="{{$skp->id_skpd}}">{{$skp->nm_skpd}}</option>
+                                    <option value="{{$skp->id_skpd}}" 
+                                        <?php if(isset($detail->id_skpd))
+                                                if($skp->id_skpd == $detail->id_skpd)
+                                                    echo 'selected="selected" disabled="disabled"';
+                                        ?>
+                                    >{{$skp->nm_skpd}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -60,7 +65,7 @@
                                 <select class="form-control" name="bidang" required>
                                     <option value="" disabled selected>Pilih Bidang</option>
                                     @foreach($bidang as $bdg)
-                                    <option value="{{$bdg->id_bidang}}">{{$bdg->bidang}}</option>
+                                    <option value="{{$bdg->id_bidang}}" <?php if(isset($detail->bidang_urusan) && $detail->bidang_urusan==$bdg->bidang)echo "selected";?>>{{$bdg->bidang}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -71,6 +76,11 @@
                             <div class="col-sm-6">
                                 <select class="form-control" name="program" required>
                                     <option value="" disabled selected>Pilih Program</option>
+                                    <?php if($jenis == 'manual_msb'){?>
+                                    <option value="{{$detail->kegiatan->program->id_prog}}" selected>{{$detail->kegiatan->program->program}}</option>
+                                    <?php }elseif($jenis == 'skpd'){?>
+                                    <option value="" disabled selected>Pilih Program</option>
+                                    <?php } ?>
                                 </select>
                             </div>
                         </div>
@@ -78,7 +88,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Nama Kegiatan</label>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" name="nama_kegiatan"  required> 
+                                <input type="text" class="form-control" name="nama_kegiatan" value="{{$detail->nama_pekerjaan}}"  required> 
                                 <span class="help-block m-b-none">Isikan dengan angka tanpa koma(,) atau titik(.)</span>
                             </div>
                         </div>
@@ -86,7 +96,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Lokasi</label>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" name="lokasi"  required> 
+                                <input type="text" class="form-control" name="lokasi" value="{{$detail->desa->nm_desa}}"  required> 
                                 <span class="help-block m-b-none">Pisahkan lokasi dengan koma(,)</span>
                             </div>
                         </div>
@@ -97,7 +107,7 @@
                                 <select class="form-control" name="satuan" required>
                                     <option value="" disabled selected>Pilih Satuan</option>
                                     @foreach($satuan as $stn)
-                                    <option value="{{$stn->satuan}}">{{$stn->satuan}}</option>
+                                    <option value="{{$stn->satuan}}" <?php if(isset($detail->satuan) && $detail->satuan == $stn->satuan)echo "selected";?>>{{$stn->satuan}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -179,7 +189,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="col-lg-12">
                 <div class="ibox float-e-margins">
@@ -210,11 +219,9 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </form>
-    
     <div class="footer">
         <div>
             <strong>Copyright</strong> BAPPEDA KABUPATEN YALIMO

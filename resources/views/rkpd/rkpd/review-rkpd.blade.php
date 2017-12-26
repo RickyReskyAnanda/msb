@@ -52,7 +52,7 @@
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Cari Laporan</button>
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Cari </button>
                             </div>
                         </form>
                     </div>
@@ -60,7 +60,7 @@
             </div>
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>Laporan RKPD</h5>
+                    <h5>Review Renstra</h5>
                 </div>
                 <div class="ibox-content">
                     <div class="table-responsive">
@@ -139,7 +139,7 @@
                                 <td><?php if(isset($kegiatan->nm_kegiatan))echo ucwords($kegiatan->nm_kegiatan)?></td>
                                 <td><?php if(isset($kegiatan->lokasi))echo $kegiatan->lokasi;?></td>
                                 <td><?php if(isset($kegiatan->indikator_kinerja))echo $kegiatan->indikator_kinerja;?></td>
-                                <td>{{$kegiatan->target}}</td>
+                                <td>{{$kegiatan->target.' '.$kegiatan->satuan}}</td>
                                 <td>
                                     <?php 
                                         echo number_format($kegiatan->pagu_indikatif);
@@ -149,8 +149,10 @@
                                 <td>{{ucwords($kegiatan->nm_kegiatan)}}</td>
                                 <td>{{$kegiatan->hak_lokasi}}</td>
                                 <td><?php if(isset($kegiatan->indikator_kinerja))echo ucwords($kegiatan->indikator_kinerja);?></td>
-                                <td>{{$kegiatan->hak_target_capaian}}</td>
+                                <td><?php if(isset($kegiatan->hak_target_capaian) || $kegiatan->hak_target_capaian!=0)
+                                            echo number_format($kegiatan->hak_target_capaian).' '.$kegiatan->satuan ?></td>
                                 <td><?php
+                                        if(isset($kegiatan->hak_target_capaian) || $kegiatan->hak_target_capaian!=0)
                                         echo number_format($kegiatan->hak_pagu_indikatif);
                                         $jumlah_pagu_akhir +=$kegiatan->hak_pagu_indikatif;
                                     ?>
@@ -161,7 +163,7 @@
                                 </td>
                                 <td>
                                     @if($kegiatan->sah =='YA')
-                                    <a href="{{url('rkpd/administrator/anggaran-perubahan/input/'.$kegiatan->id_rkpd)}}" class="btn btn-primary">Anggaran Perubahan</a>
+                                    <a href="{{url('rkpd/administrator/anggaran-perubahan/input/'.$kegiatan->id_rkpd)}}" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
                                     @endif
                                 </td>
                             </tr>

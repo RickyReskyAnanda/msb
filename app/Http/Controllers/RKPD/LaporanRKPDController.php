@@ -64,7 +64,13 @@ class LaporanRKPDController extends Controller
         $skpd = SKPDModel::all();
         $satuan = SatuanModel::all();
         $sumberDana = SumberDanaModel::all();
-        return view('rkpd.rkpd.input-rkpd',compact('tahun','bidang','satuan','sumberDana','id_usul_bappeda','jenis','skpd'));
+
+        $detail = array();
+
+        if($jenis == 'manual_msb')
+            $detail = UsulanBappedaModel::find($id);
+        
+        return view('rkpd.rkpd.input-rkpd',compact('tahun','bidang','satuan','sumberDana','jenis','skpd','detail'));
     }
 
     public function postInputRKPD(Request $request){

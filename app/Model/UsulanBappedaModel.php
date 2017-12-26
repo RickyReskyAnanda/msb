@@ -27,4 +27,8 @@ class UsulanBappedaModel extends Model
 	public function fotodesa(){
 		return $this->hasMany('App\Model\FotoModel','id_usul_desa', 'id_usul_desa');
 	}
+
+	public function kegiatan(){
+		return $this->hasOne('App\Model\KegiatanModel','id_kegiatan', 'id_keg');
+	}
 }

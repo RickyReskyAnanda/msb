@@ -15,4 +15,9 @@ class KegiatanModel extends Model
 	public function rkpd(){
 		return $this->hasOne('App\Model\RKPDModel', 'id_kegiatan', 'id_kegiatan');
 	}
+
+	public function program(){
+		return $this->hasOne('App\Model\ProgramModel','id_prog','nm_program');
+	}
+
 }
